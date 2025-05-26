@@ -6,7 +6,6 @@ import '../../../../main.dart';
 import '../../user/screens/profile_screen.dart';
 import 'color_utils.dart';
 
-/// Utility class for user-related operations.
 class UserUtils {
   static final personIcon = Icon(
     Icons.person,
@@ -20,7 +19,6 @@ class UserUtils {
         : user.username;
   }
 
-  /// Go to user profile
   static void goToProfile(User user) {
     navigatorKey.currentState?.push(
       PageRouteBuilder(

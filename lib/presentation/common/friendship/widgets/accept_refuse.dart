@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../core/utils/color_utils.dart';
 
-/// A widget that displays a accept and refuse buttons
 class AcceptRefuseWidget extends StatelessWidget {
   final String userId;
   final Function(String) onAccept;

@@ -8,24 +8,20 @@ import '../../location/view_model/location_view_model.dart';
 import '../../timer/viewmodel/timer_view_model.dart';
 import 'state/metrics_state.dart';
 
-/// A provider for [MetricsViewModel] that creates an instance of [MetricsViewModel] automatically
-/// and disposes it when no longer needed.
+
 final metricsViewModelProvider =
     StateNotifierProvider.autoDispose<MetricsViewModel, MetricsState>(
   (ref) => MetricsViewModel(ref.container),
 );
 
-/// The view model responsible for managing metrics state and calculations.
 class MetricsViewModel extends StateNotifier<MetricsState> {
   final ProviderContainer _container;
   late final TextToSpeechService textToSpeech;
 
-  /// Creates an instance of [MetricsViewModel] with the specified [ProviderContainer].
   MetricsViewModel(this._container) : super(MetricsState.initial()) {
     textToSpeech = _container.read(textToSpeechService);
   }
 
-  /// Updates the metrics based on the current location and timer.
   Future<void> updateMetrics() async {
     final location = _container.read(locationViewModelProvider);
     final timer = _container.read(timerViewModelProvider.notifier);

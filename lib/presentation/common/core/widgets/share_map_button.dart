@@ -12,14 +12,9 @@ import '../utils/color_utils.dart';
 import '../utils/image_utils.dart';
 import '../utils/share_utils.dart';
 
-/// A widget that displays the share map button
 class ShareMapButton extends HookConsumerWidget {
   final GlobalKey boundaryKey;
   final Activity activity;
-
-  /// Creates a [ShareMapButton] widget.
-  ///
-  /// The [boundaryKey] is the key of the widget to capture and share
   const ShareMapButton(
       {super.key, required this.boundaryKey, required this.activity});
 

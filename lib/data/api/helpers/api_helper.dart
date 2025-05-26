@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 
 class ApiHelper {
+  //antiguo backend de mi app 
   static const String apiUrl = 'https://mocked-api.local/api/';
 
   static Future<Response?> makeRequest(

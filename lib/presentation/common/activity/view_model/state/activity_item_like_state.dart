@@ -1,4 +1,3 @@
-/// The state class for activity item like.
 class ActivityItemLikeState {
   final double likes;
   final bool hasUserLiked;
@@ -6,7 +5,6 @@ class ActivityItemLikeState {
   const ActivityItemLikeState(
       {required this.likes, required this.hasUserLiked});
 
-  /// Factory method to create the initial state.
   factory ActivityItemLikeState.initial() {
     return const ActivityItemLikeState(likes: 0, hasUserLiked: false);
   }

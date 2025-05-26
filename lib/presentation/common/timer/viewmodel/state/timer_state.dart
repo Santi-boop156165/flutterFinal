@@ -5,7 +5,6 @@ class TimerState {
   final int seconds;
   final bool isRunning;
 
-  /// Represents the state of a timer.
   const TimerState({
     required this.startDatetime,
     required this.hours,
@@ -14,7 +13,6 @@ class TimerState {
     required this.isRunning,
   });
 
-  /// Creates the initial state of a timer.
   factory TimerState.initial() {
     return TimerState(
       startDatetime: DateTime.now(),
@@ -25,7 +23,6 @@ class TimerState {
     );
   }
 
-  /// Creates a copy of the current state with optional changes.
   TimerState copyWith({
     DateTime? startDatetime,
     int? hours,

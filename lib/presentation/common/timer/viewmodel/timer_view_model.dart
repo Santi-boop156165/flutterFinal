@@ -21,10 +21,8 @@ class TimerViewModel extends StateNotifier<TimerState> {
   late final Stopwatch stopwatch = Stopwatch();
   final Duration _timerDuration = const Duration(seconds: 1);
 
-  /// Represents the view model for a timer.
   TimerViewModel(this.ref) : super(TimerState.initial());
 
-  /// Starts the timer.
   void startTimer() {
     bool isRunning = hasTimerStarted();
     stopwatch.start();
@@ -39,22 +37,18 @@ class TimerViewModel extends StateNotifier<TimerState> {
     }
   }
 
-  /// Checks if the timer has already started.
   bool hasTimerStarted() {
     return stopwatch.elapsedMilliseconds > 0;
   }
 
-  /// Checks if the timer is currently running.
   bool isTimerRunning() {
     return stopwatch.isRunning;
   }
 
-  /// Resets the timer.
   void resetTimer() {
     state = TimerState.initial();
   }
 
-  /// Stops the timer.
   void stopTimer() async {
     stopwatch.stop();
     await announceResults();
@@ -69,7 +63,6 @@ class TimerViewModel extends StateNotifier<TimerState> {
     final distance = metricsProvider.distance;
     final globalSpeed = metricsProvider.globalSpeed;
 
-    //await ref.read(locationViewModelProvider.notifier).cancelLocationStream();
 
     var textToSay = StringBuffer();
 

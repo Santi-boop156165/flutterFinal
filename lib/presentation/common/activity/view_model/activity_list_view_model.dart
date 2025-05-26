@@ -3,13 +3,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'state/activity_list_state.dart';
 
-/// Provider for the activity list view model.
 final activityListWidgetViewModelProvider = StateNotifierProvider.family<
     ActivityListWidgetViewModel,
     ActivityListWidgetState,
     String>((ref, listId) => ActivityListWidgetViewModel(ref, listId));
 
-/// View model for the activity item widget.
 class ActivityListWidgetViewModel
     extends StateNotifier<ActivityListWidgetState> {
   final Ref ref;

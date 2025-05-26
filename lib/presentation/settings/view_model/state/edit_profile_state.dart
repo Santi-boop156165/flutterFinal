@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-/// Represents the state of the edit profile screen.
 class EditProfileState {
   final String firstname;
   final String lastname;
@@ -9,7 +8,6 @@ class EditProfileState {
   final bool errorOnRequest;
   final bool isUploading;
 
-  /// Creates a new instance of [EditProfileState].
   const EditProfileState(
       {required this.firstname,
       required this.lastname,
@@ -18,7 +16,6 @@ class EditProfileState {
       required this.errorOnRequest,
       required this.isUploading});
 
-  /// Creates the initial state for the edit profile screen.
   factory EditProfileState.initial() {
     return const EditProfileState(
         firstname: '',
@@ -29,7 +26,6 @@ class EditProfileState {
         isUploading: false);
   }
 
-  /// Creates a copy of this state object with the specified changes.
   EditProfileState copyWith(
       {String? firstname,
       String? lastname,

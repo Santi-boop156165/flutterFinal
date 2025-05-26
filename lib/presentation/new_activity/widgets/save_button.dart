@@ -4,11 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../common/core/utils/color_utils.dart';
 import '../view_model/sum_up_view_model.dart';
 
-/// Represents the Save button widget.
 class SaveButton extends HookConsumerWidget {
   final bool disabled;
 
-  /// Creates a new instance of [SaveButton] with the given [disabled] state.
   const SaveButton({super.key, required this.disabled});
 
   @override

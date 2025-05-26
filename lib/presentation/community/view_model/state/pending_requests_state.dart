@@ -1,6 +1,5 @@
 import '../../../../domain/entities/user.dart';
 
-/// The state class for pending requests screen.
 class PendingRequestsState {
   final bool isLoading;
   final List<User> pendingRequests;
@@ -11,13 +10,11 @@ class PendingRequestsState {
       required this.pendingRequests,
       required this.total});
 
-  /// Factory method to create the initial state.
   factory PendingRequestsState.initial() {
     return const PendingRequestsState(
         isLoading: false, pendingRequests: [], total: 0);
   }
 
-  /// Method to create a copy of the state with updated values.
   PendingRequestsState copyWith(
       {bool? isLoading, // Updated loading state
       List<User>? pendingRequests,

@@ -14,7 +14,6 @@ import '../view_model/activity_details_view_model.dart';
 import '../widgets/details_tab.dart';
 import '../widgets/graph_tab.dart';
 
-/// The screen that displays details of a specific activity.
 class ActivityDetailsScreen extends HookConsumerWidget {
   final Activity activity;
 

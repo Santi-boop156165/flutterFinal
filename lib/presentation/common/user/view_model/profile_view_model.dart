@@ -11,19 +11,16 @@ import '../../core/widgets/view_model/infinite_scroll_list_view_model.dart';
 import 'profile_picture_view_model.dart';
 import 'state/profile_state.dart';
 
-/// Provider for the profile view model.
 final profileViewModelProvider =
     StateNotifierProvider.family<ProfileViewModel, ProfileState, String>(
         (ref, userId) => ProfileViewModel(ref, userId));
 
-/// View model for the community screen.
 class ProfileViewModel extends StateNotifier<ProfileState> {
   late final Ref ref;
   final String userId;
 
   ProfileViewModel(this.ref, this.userId) : super(ProfileState.initial());
 
-  /// Retrieves the friendship status.
   Future<void> getFriendshipStatus(String userId) async {
     final friendRequestRepository = ref.read(friendRequestRepositoryProvider);
     final currentUser = await StorageUtils.getUser();

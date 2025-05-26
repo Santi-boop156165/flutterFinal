@@ -12,7 +12,6 @@ import '../view_model/send_new_password_view_model.dart';
 class SendNewPasswordScreen extends HookConsumerWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  /// Constructs a [SendNewPasswordScreen].
   SendNewPasswordScreen({super.key});
 
   @override

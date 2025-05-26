@@ -20,12 +20,9 @@ final settingsViewModelProvider =
 class SettingsViewModel extends StateNotifier<SettingsState> {
   Ref ref;
 
-  /// Manages the state and logic of the settings screen.
-  ///
-  /// [ref] - The reference to the hooks riverpod container.
+
   SettingsViewModel(this.ref) : super(SettingsState.initial());
 
-  /// Logs out the user.
   Future<void> logoutUser() async {
     try {
       state = state.copyWith(isLoading: true);

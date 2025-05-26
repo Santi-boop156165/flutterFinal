@@ -8,14 +8,12 @@ import '../../common/timer/widgets/timer_pause.dart';
 import '../../common/timer/widgets/timer_sized.dart';
 import '../../common/timer/widgets/timer_start.dart';
 
-/// The screen for creating a new activity.
 class NewActivityScreen extends HookConsumerWidget {
   const NewActivityScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final timerViewModel = ref.watch(timerViewModelProvider.notifier);
-    // ignore: unused_local_variable
     final isRunning =
         ref.watch(timerViewModelProvider.select((value) => value.isRunning));
 

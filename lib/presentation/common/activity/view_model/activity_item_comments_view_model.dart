@@ -11,12 +11,10 @@ import '../../core/utils/activity_utils.dart';
 import '../../core/widgets/view_model/infinite_scroll_list_view_model.dart';
 import 'state/activity_item_comments_state.dart';
 
-/// Provider for the activity item interaction view model.
 final activityItemCommentsViewModelProvider = StateNotifierProvider.family<
         ActivityItemCommentsViewModel, ActivityItemCommentsState, String>(
     (ref, activityId) => ActivityItemCommentsViewModel(ref, activityId));
 
-/// View model for the activity item interaction widget.
 class ActivityItemCommentsViewModel
     extends StateNotifier<ActivityItemCommentsState> {
   final String activityId;
@@ -26,18 +24,15 @@ class ActivityItemCommentsViewModel
   ActivityItemCommentsViewModel(this.ref, this.activityId)
       : super(ActivityItemCommentsState.initial());
 
-  /// Toggle the previous comments in the state
   void togglePreviousComments() {
     state =
         state.copyWith(displayPreviousComments: !state.displayPreviousComments);
   }
 
-  /// Set comments in the state
   void setComments(List<ActivityComment> comments) {
     state = state.copyWith(comments: comments);
   }
 
-  /// Comment the activity.
   Future<void> comment(Activity activity) async {
     state = state.copyWith(isLoading: true);
     ActivityComment? activityComment = await ref
@@ -65,7 +60,6 @@ class ActivityItemCommentsViewModel
     state = state.copyWith(isLoading: false);
   }
 
-  /// Remove the comment
   Future<void> removeActivityComment(String id, Activity activity) async {
     state = state.copyWith(isLoading: true);
 

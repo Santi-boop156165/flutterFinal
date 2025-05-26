@@ -2,7 +2,6 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
-/// Utility class for color-related operations.
 class ColorUtils {
   static Color main = Colors.teal.shade800;
   static Color mainDarker = Colors.teal.shade900;

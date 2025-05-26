@@ -2,21 +2,15 @@ import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/location.dart';
 
-/// Represents a response object for a location.
 class LocationResponse extends Equatable {
-  /// The ID of the location.
   final String id;
 
-  /// The datetime of the location.
   final DateTime datetime;
 
-  /// The latitude of the location.
   final double latitude;
 
-  /// The longitude of the location.
   final double longitude;
 
-  /// Constructs a LocationResponse object with the given parameters.
   const LocationResponse({
     required this.id,
     required this.datetime,
@@ -32,7 +26,6 @@ class LocationResponse extends Equatable {
         longitude,
       ];
 
-  /// Creates a LocationResponse object from a JSON map.
   factory LocationResponse.fromMap(Map<String, dynamic> map) {
     return LocationResponse(
       id: map['id'].toString(),
@@ -42,7 +35,6 @@ class LocationResponse extends Equatable {
     );
   }
 
-  /// Converts the LocationResponse object to a Location entity.
   Location toEntity() {
     return Location(
       id: id,

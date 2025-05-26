@@ -8,7 +8,7 @@ class FriendRequestApi {
     final mockUsers = List.generate(5, (index) {
       return UserResponse(
         id: 'user_$index',
-        username: 'mock_user_$index',
+        username: 'daibis$index',
         firstname: 'Nombre$index',
         lastname: 'Apellido$index',
       );

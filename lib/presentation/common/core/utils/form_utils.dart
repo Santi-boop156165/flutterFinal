@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'color_utils.dart';
 
-/// Utility class for form-related operations.
 class FormUtils {
-  /// Button style used for form buttons.
   static final ButtonStyle buttonStyle = createButtonStyle(ColorUtils.main);
 
-  /// Default text style for form fields.
   static const TextStyle textFormFieldStyle = TextStyle(fontSize: 20);
 
   /// Dark text style for form fields.
@@ -16,10 +13,7 @@ class FormUtils {
     color: ColorUtils.white,
   );
 
-  /// Creates a button style with the given [backgroundColor].
-  ///
-  /// The [backgroundColor] determines the background color of the button.
-  /// Returns the created button style.
+
   static ButtonStyle createButtonStyle(Color backgroundColor) {
     return ButtonStyle(
       textStyle: WidgetStateProperty.all(TextStyle(
@@ -34,12 +28,7 @@ class FormUtils {
     );
   }
 
-  /// Creates an input decoration for form fields.
-  ///
-  /// The [text] is the label text for the form field.
-  /// The [dark] flag determines if the form field should use dark colors.
-  /// The [icon] is an optional icon for the form field.
-  /// Returns the created input decoration.
+  
   static InputDecoration createInputDecorative(String text,
       {bool? dark, IconData? icon}) {
     dark ??= false;

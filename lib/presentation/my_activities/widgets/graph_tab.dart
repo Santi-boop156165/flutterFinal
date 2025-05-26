@@ -9,7 +9,6 @@ import '../../../domain/entities/location.dart';
 import '../../common/core/utils/color_utils.dart';
 import '../../common/core/utils/map_utils.dart';
 
-/// The tab that displays a graph of speed of a specific activity.
 class GraphTab extends StatelessWidget {
   final Activity activity;
 

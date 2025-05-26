@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../common/core/utils/color_utils.dart';
 import '../view_model/activity_list_view_model.dart';
 
-/// A floating action button widget that allows the user to navigate back to the home screen.
 class BackToHomeButton extends HookConsumerWidget {
   const BackToHomeButton({super.key});
 

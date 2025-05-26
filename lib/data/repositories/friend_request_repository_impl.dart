@@ -7,11 +7,9 @@ import '../../domain/entities/user.dart';
 import '../../domain/repositories/friend_request_repository.dart';
 import '../api/friend_request_api.dart';
 
-/// Provider for the FriendRequestRepository implementation.
 final friendRequestRepositoryProvider =
     Provider<FriendRequestRepository>((ref) => FriendRequestRepositoryImpl());
 
-/// Implementation of the FriendRequestRepository.
 class FriendRequestRepositoryImpl extends FriendRequestRepository {
   FriendRequestRepositoryImpl();
 

@@ -19,16 +19,13 @@ final editProfileViewModelProvider =
 class EditProfileViewModel extends StateNotifier<EditProfileState> {
   Ref ref;
 
-  /// Creates a new instance of [EditProfileViewModel].
   EditProfileViewModel(this.ref) : super(EditProfileState.initial());
 
-  /// Sets the firstname in the state.
   void setFirstname(String? firstname) {
     state = state.copyWith(firstname: firstname);
   }
 
-  /// Sets the lastname in the state.
-  void setLastname(String? lastname) {
+ void setLastname(String? lastname) {
     state = state.copyWith(lastname: lastname);
   }
 

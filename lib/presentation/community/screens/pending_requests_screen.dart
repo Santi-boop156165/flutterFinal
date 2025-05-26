@@ -8,7 +8,6 @@ import '../../common/core/utils/ui_utils.dart';
 import '../view_model/pending_request_view_model.dart';
 import '../widgets/pending_request_list.dart';
 
-/// The screen that displays pending requests
 class PendingRequestsScreen extends HookConsumerWidget {
   PendingRequestsScreen({super.key});
 

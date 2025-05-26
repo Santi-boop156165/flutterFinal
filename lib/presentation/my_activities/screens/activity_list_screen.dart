@@ -8,7 +8,6 @@ import '../../common/core/enums/infinite_scroll_list.enum.dart';
 import '../../common/core/utils/ui_utils.dart';
 import '../view_model/activity_list_view_model.dart';
 
-/// The screen that displays a list of activities.
 class ActivityListScreen extends HookConsumerWidget {
   final activityDataFutureProvider =
       FutureProvider<EntityPage<Activity>>((ref) async {

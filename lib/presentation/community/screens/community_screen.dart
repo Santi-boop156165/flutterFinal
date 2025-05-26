@@ -12,7 +12,6 @@ import '../view_model/community_view_model.dart';
 import '../view_model/pending_request_view_model.dart';
 import 'pending_requests_screen.dart';
 
-/// The screen that displays community infos
 class CommunityScreen extends HookConsumerWidget {
   final TextEditingController _searchController = TextEditingController();
 

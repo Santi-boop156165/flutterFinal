@@ -9,15 +9,11 @@ import 'package:image_picker/image_picker.dart';
 import '../utils/color_utils.dart';
 import '../utils/ui_utils.dart';
 
-/// A widget that allows the user to upload (and optionally crop) an image file.
 class UploadFileWidget extends HookConsumerWidget {
-  /// Image bytes to display (already chosen/cropped).
   final Uint8List? image;
 
-  /// Callback invoked when the user finishes cropping.
   final void Function(Uint8List) callbackFunc;
 
-  /// Whether the image is currently being uploaded.
   final bool isUploading;
 
 

@@ -5,10 +5,7 @@ import 'package:hello_world/l10n/app_localizations.dart';
 
 import 'package:share_plus/share_plus.dart';
 
-/// Utility class for sharing operations.
-///
 class ShareUtils {
-  /// Open the sharing dialog
   static Future<void> shareImage(BuildContext context, Uint8List image) async {
     await Share.shareXFiles([
       XFile.fromData(

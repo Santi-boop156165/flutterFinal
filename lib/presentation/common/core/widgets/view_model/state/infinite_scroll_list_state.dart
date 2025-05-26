@@ -7,7 +7,6 @@ class InfiniteScrollListState {
   const InfiniteScrollListState(
       {required this.data, required this.isLoading, required this.pageNumber});
 
-  /// Factory method to create the initial state.
   factory InfiniteScrollListState.initial() {
     return const InfiniteScrollListState(
         data: [], isLoading: false, pageNumber: 0);

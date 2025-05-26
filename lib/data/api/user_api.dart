@@ -1,6 +1,7 @@
-// lib/data/api/user_api.dart (mockeado)
+
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
+import 'package:appwrite/appwrite.dart'; // ✅ necesaria para usar `ID`
 
 import '../../core/utils/storage_utils.dart';
 import '../../domain/entities/user.dart';
@@ -12,25 +13,42 @@ import '../model/request/send_new_password_request.dart';
 import '../model/response/login_response.dart';
 import '../model/response/user_response.dart';
 import 'helpers/api_helper.dart';
+import 'helpers/AppwriteHelper.dart';
 
 class UserApi {
-  static Future<int> createUser(RegistrationRequest request) async {
-    final response = await ApiHelper.makeRequest(
-        '${ApiHelper.apiUrl}user/register', 'POST',
-        data: request.toMap());
-    return response?.data;
-  }
+static Future<int> createUser(RegistrationRequest request) async {
+  final result = await AppwriteHelper.account.create(
+    userId: ID.unique(),
+    email: request.email,
+    password: request.password,
+    name: request.firstname,
+  );
 
-  static Future<LoginResponse> login(LoginRequest request) async {
-    final response = await ApiHelper.makeRequest(
-        '${ApiHelper.apiUrl}user/login', 'POST',
-        data: request.toMap());
-    return LoginResponse.fromMap(response?.data);
-  }
+  return result.$id.hashCode;
+}
+static Future<LoginResponse> login(LoginRequest request) async {
+  final session = await AppwriteHelper.account.createEmailPasswordSession(
+    email: request.username,
+    password: request.password,
+  );
 
-  static Future<void> logout() async {
-    await ApiHelper.makeRequest('${ApiHelper.apiUrl}private/user/logout', 'POST');
-  }
+  return LoginResponse(
+    token: session.$id,
+    refreshToken: '',
+    message: 'Login exitoso',
+    user: UserResponse(
+      id: session.userId,
+      username: request.username,
+      firstname: null,
+      lastname: null,
+    ),
+  );
+}
+
+static Future<void> logout() async {
+  await AppwriteHelper.account.deleteSession(sessionId: 'current');
+}
+
 
   static Future<void> delete() async {
     await ApiHelper.makeRequest('${ApiHelper.apiUrl}private/user', 'DELETE');
@@ -46,17 +64,21 @@ class UserApi {
   }
 
   static Future<String> sendNewPasswordByMail(SendNewPasswordRequest request) async {
-    final response = await ApiHelper.makeRequest(
-        '${ApiHelper.apiUrl}user/sendNewPasswordByMail', 'POST',
-        queryParams: request.toMap());
-    return response?.data;
-  }
+  await AppwriteHelper.account.createRecovery(
+    email: request.email,
+    url: 'https://www.google.com/?hl=es',
+  );
 
-  static Future<void> editPassword(EditPasswordRequest request) async {
-    await ApiHelper.makeRequest(
-        '${ApiHelper.apiUrl}private/user/editPassword', 'PUT',
-        data: request.toMap());
-  }
+  return 'Correo de recuperación enviado correctamente.';
+}
+
+static Future<void> editPassword(EditPasswordRequest request) async {
+await AppwriteHelper.account.updatePassword(
+  password: request.password,
+  oldPassword: request.currentPassword,
+);
+}
+
 
   static Future<void> editProfile(EditProfileRequest request) async {
     await ApiHelper.makeRequest(

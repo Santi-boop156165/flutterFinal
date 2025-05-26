@@ -14,35 +14,34 @@ final registrationViewModelProvider =
 class RegistrationViewModel extends StateNotifier<RegistrationState> {
   Ref ref;
 
-  /// Creates a new instance of [RegistrationViewModel].
   RegistrationViewModel(this.ref) : super(RegistrationState.initial());
 
-  /// Sets the firstname in the state.
   void setFirstname(String? firstname) {
     state = state.copyWith(firstname: firstname);
   }
-
-  /// Sets the lastname in the state.
+void setEmail(String? email) {
+  state = state.copyWith(email: email);
+}
   void setLastname(String? lastname) {
     state = state.copyWith(lastname: lastname);
   }
 
-  /// Sets the username in the state.
-  void setUsername(String? username) {
-    state = state.copyWith(username: username);
-  }
+ void setUsername(String? username) {
+  final cleaned = (username ?? '').trim();
+  final suffix = DateTime.now().millisecondsSinceEpoch % 10000; // hasta 4 dígitos
+  final generatedUsername = cleaned.isEmpty ? 'user_$suffix' : '${cleaned}_$suffix';
 
-  /// Sets the password in the state.
+  state = state.copyWith(username: generatedUsername);
+}
+
   void setPassword(String? password) {
     state = state.copyWith(password: password);
   }
 
-  /// Sets the check password in the state.
   void setCheckPassword(String? checkPassword) {
     state = state.copyWith(checkPassword: checkPassword);
   }
 
-  /// Submits the registration form.
   Future<void> submitForm(
       BuildContext context, GlobalKey<FormState> formKey) async {
     if (formKey.currentState!.validate()) {
@@ -54,7 +53,8 @@ class RegistrationViewModel extends StateNotifier<RegistrationState> {
       final registrationRequest = RegistrationRequest(
         firstname: state.firstname,
         lastname: state.lastname,
-        username: state.username,
+        username: state.firstname,
+        email: state.email,
         password: state.password,
       );
 
@@ -62,7 +62,6 @@ class RegistrationViewModel extends StateNotifier<RegistrationState> {
         await userRepository.register(registrationRequest);
         navigatorKey.currentState?.pop();
       } catch (error) {
-        // Show error message to the user
         showDialog(
           context: context,
           builder: (context) {

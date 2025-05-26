@@ -33,7 +33,6 @@ class SumUpScreen extends HookConsumerWidget {
 
     final List<Marker> markers = [];
 
-    // Add markers to the map if activity locations are available.
     if (locations.isNotEmpty) {
       markers.add(
         Marker(

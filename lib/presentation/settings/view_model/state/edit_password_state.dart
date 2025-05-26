@@ -6,7 +6,6 @@ class EditPasswordState {
   final bool isEditing;
   final bool errorOnRequest;
 
-  /// Creates a new instance of [EditPasswordState].
   const EditPasswordState(
       {required this.currentPassword,
       required this.password,
@@ -14,7 +13,6 @@ class EditPasswordState {
       required this.isEditing,
       required this.errorOnRequest});
 
-  /// Creates the initial state for the edit password screen.
   factory EditPasswordState.initial() {
     return const EditPasswordState(
         currentPassword: '',
@@ -24,7 +22,6 @@ class EditPasswordState {
         errorOnRequest: false);
   }
 
-  /// Creates a copy of this state object with the specified changes.
   EditPasswordState copyWith(
       {String? currentPassword,
       String? password,

@@ -7,10 +7,8 @@ import 'package:image/image.dart' as img;
 
 import 'color_utils.dart';
 
-/// Utility class for image editing operations.
-///
+
 class ImageUtils {
-  /// Create an image from a widget
   static Future<Uint8List?> captureWidgetToImage(GlobalKey boundaryKey,
       {int size = 1500}) async {
     try {
@@ -47,12 +45,10 @@ class ImageUtils {
         cropSize = originalImage.height;
         offsetX = (originalImage.width - cropSize) ~/ 2;
       } else {
-        // Crop horizontally to get a square
         cropSize = originalImage.width;
         offsetY = (originalImage.height - cropSize) ~/ 2;
       }
 
-      // Crop the image
       img.Image croppedImage = img.copyCrop(originalImage,
           x: offsetX, y: offsetY, width: cropSize, height: cropSize);
       img.Image resizedCroppedImage =

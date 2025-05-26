@@ -88,7 +88,7 @@ class RegistrationScreen extends HookConsumerWidget {
                             validator: (value) =>
                                 LoginValidators.email(context, value),
                             onSaved: (value) {
-                              provider.setUsername(value);
+                              provider.setEmail(value);
                             },
                           ),
                           // Password TextFormField

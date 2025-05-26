@@ -9,12 +9,10 @@ import '../../common/core/enums/infinite_scroll_list.enum.dart';
 import '../../common/core/widgets/view_model/infinite_scroll_list_view_model.dart';
 import 'state/community_state.dart';
 
-/// Provider for the community view model.
 final communityViewModelProvider =
     StateNotifierProvider.autoDispose<CommunityViewModel, CommunityState>(
         (ref) => CommunityViewModel(ref));
 
-/// View model for the community screen.
 class CommunityViewModel extends StateNotifier<CommunityState> {
   late final Ref ref;
 

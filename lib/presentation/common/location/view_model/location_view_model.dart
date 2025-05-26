@@ -15,15 +15,12 @@ final locationViewModelProvider =
   (ref) => LocationViewModel(ref),
 );
 
-/// View model for managing location-related functionality.
 class LocationViewModel extends StateNotifier<LocationState> {
   final Ref ref;
   MapController? mapController = MapController();
   StreamSubscription<Position>? _positionStream;
 
-  /// Creates a [LocationViewModel] instance.
-  ///
-  /// The [ref] is a reference to the current provider reference.
+
   LocationViewModel(this.ref) : super(LocationState.initial());
 
   @override
@@ -77,29 +74,24 @@ class LocationViewModel extends StateNotifier<LocationState> {
     });
   }
 
-  /// Retrieves the saved positions as a list of [LatLng] objects.
   List<LatLng> savedPositionsLatLng() {
     return state.savedPositions
         .map((position) => LatLng(position.latitude, position.longitude))
         .toList();
   }
 
-  /// Resets the saved positions to an empty list.
   void resetSavedPositions() {
     state = state.copyWith(savedPositions: []);
   }
 
-  /// Pauses the location stream.
   void stopLocationStream() {
     _positionStream?.pause();
   }
 
-  /// Resumes the location stream.
   void resumeLocationStream() {
     _positionStream?.resume();
   }
 
-  /// Cancels the location stream and cleans up resources.
   Future<void> cancelLocationStream() async {
     await _positionStream?.cancel();
     _positionStream = null;

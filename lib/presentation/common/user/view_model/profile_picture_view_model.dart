@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../data/repositories/user_repository_impl.dart';
 import 'state/profile_picture_state.dart';
 
-/// Provider for the profile picture view model.
 final profilePictureViewModelProvider = StateNotifierProvider.family<
     ProfilePictureViewModel,
     ProfilePictureState,
