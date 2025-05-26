@@ -15,55 +15,79 @@ enum Tabs { home, list, community, settings }
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(homeViewModelProvider);
-    final homeViewModel = ref.watch(homeViewModelProvider.notifier);
-    final currentIndex = state.currentIndex;
+@override
+Widget build(BuildContext context, WidgetRef ref) {
+  final state = ref.watch(homeViewModelProvider);
+  final homeViewModel = ref.watch(homeViewModelProvider.notifier);
+  final currentIndex = state.currentIndex;
 
-    final tabs = [
-      const NewActivityScreen(),
-      ActivityListScreen(),
-      CommunityScreen(),
-      const SettingsScreen(),
-    ];
+  final tabs = [
+    const NewActivityScreen(),
+    ActivityListScreen(),
+    CommunityScreen(),
+    const SettingsScreen(),
+  ];
 
-    return Scaffold(
-        body: SafeArea(child: tabs[currentIndex]),
-        bottomNavigationBar: Container(
-            color: ColorUtils.mainMedium,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-              child: GNav(
-                backgroundColor: ColorUtils.mainMedium,
-                color: ColorUtils.white,
-                activeColor: ColorUtils.white,
-                tabBackgroundColor: ColorUtils.mainDarker,
-                padding: const EdgeInsets.all(16),
-                selectedIndex: currentIndex,
-                onTabChange: (value) {
-                  homeViewModel.setCurrentIndex(value);
-                },
-                gap: 8,
-                tabs: [
-                  GButton(
-                    icon: Icons.flash_on,
-                    text: AppLocalizations.of(context)!.start_activity,
-                  ),
-                  GButton(
-                    icon: Icons.list,
-                    text: AppLocalizations.of(context)!.list,
-                  ),
-                  GButton(
-                    icon: Icons.people,
-                    text: AppLocalizations.of(context)!.community,
-                  ),
-                  GButton(
-                    icon: Icons.settings,
-                    text: AppLocalizations.of(context)!.settings,
-                  ),
-                ],
+  return Container(
+    decoration: const BoxDecoration(
+      gradient: LinearGradient(
+        colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+    ),
+    child: Scaffold(
+      backgroundColor: Colors.transparent, // ← para que se vea el fondo
+      body: SafeArea(child: tabs[currentIndex]),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.1),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              offset: const Offset(0, -1),
+              blurRadius: 10,
+            )
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          child: GNav(
+            backgroundColor: Colors.transparent,
+            color: Colors.white70,
+            activeColor: Colors.white,
+            tabBackgroundColor: Colors.white.withOpacity(0.1),
+            gap: 10,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            selectedIndex: currentIndex,
+            onTabChange: homeViewModel.setCurrentIndex,
+            tabs: [
+              GButton(
+                icon: Icons.flash_on,
+                text: AppLocalizations.of(context)!.start_activity,
               ),
-            )));
-  }
+              GButton(
+                icon: Icons.list,
+                text: AppLocalizations.of(context)!.list,
+              ),
+              GButton(
+                icon: Icons.people,
+                text: AppLocalizations.of(context)!.community,
+              ),
+              GButton(
+                icon: Icons.settings,
+                text: AppLocalizations.of(context)!.settings,
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
 }

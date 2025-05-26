@@ -13,9 +13,9 @@ import '../view_model/profile_picture_view_model.dart';
 import '../view_model/profile_view_model.dart';
 import '../widgets/friend_request.dart';
 
+
 class ProfileScreen extends HookConsumerWidget {
   final User user;
-
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey();
 
   ProfileScreen({super.key, required this.user});
@@ -25,7 +25,7 @@ class ProfileScreen extends HookConsumerWidget {
     String userId = user.id;
     final profileProvider = ref.read(profileViewModelProvider(userId).notifier);
     profileProvider.getFriendshipStatus(userId);
-    profileProvider.getProfilePicture(userId);
+    // Ya no se necesita profileProvider.getProfilePicture(userId);
   });
 
   final activitiesDataFutureProvider =
@@ -37,14 +37,10 @@ class ProfileScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var state = ref.watch(profileViewModelProvider(user.id));
-    var provider = ref.watch(profileViewModelProvider(user.id).notifier);
+    final state = ref.watch(profileViewModelProvider(user.id));
+    final provider = ref.watch(profileViewModelProvider(user.id).notifier);
     final futureProvider = ref.watch(futureDataProvider(user));
-
-    var profilePicture =
-        ref.watch(profilePictureViewModelProvider(user.id)).profilePicture;
-
-    var activitiesStateProvider = ref.watch(activitiesDataFutureProvider(user));
+    final activitiesStateProvider = ref.watch(activitiesDataFutureProvider(user));
 
     return Scaffold(
       body: SafeArea(
@@ -53,52 +49,51 @@ class ProfileScreen extends HookConsumerWidget {
             : Column(
                 children: [
                   Container(
-                    padding:
-                        const EdgeInsets.only(left: 16, top: 16, right: 16),
+                    padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(150),
-                          child: Container(
-                            alignment: Alignment.center,
+                          child: Image.network(
+                            'https://api.dicebear.com/8.x/identicon/png?seed=${user.id}',
                             width: 150,
                             height: 150,
-                            child: profilePicture != null
-                                ? Image.memory(
-                                    profilePicture,
-                                    fit: BoxFit.cover,
-                                  )
-                                : const Icon(Icons.person, size: 100),
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Icon(Icons.person, size: 100),
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(child: UIUtils.loader);
+                            },
                           ),
                         ),
+                        const SizedBox(width: 16),
                         Expanded(
                           child: Column(
                             children: [
                               Text(
                                 UserUtils.getNameOrUsername(user),
                                 style: const TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
                               const SizedBox(height: 10),
                               futureProvider.when(
                                 data: (_) {
-                                  Widget widget = Container();
                                   if (state.friendshipStatus !=
                                       FriendRequestStatus.noDisplay) {
-                                    widget =
-                                        FriendRequestWidget(userId: user.id);
+                                    return FriendRequestWidget(userId: user.id);
                                   }
-                                  return widget;
+                                  return Container();
                                 },
-                                loading: () {
-                                  return Center(child: UIUtils.loader);
-                                },
-                                error: (error, stackTrace) {
-                                  return Text('$error');
-                                },
+                                loading: () =>
+                                    Center(child: UIUtils.loader),
+                                error: (error, stackTrace) =>
+                                    Text('$error'),
                               )
                             ],
                           ),
@@ -126,13 +121,11 @@ class ProfileScreen extends HookConsumerWidget {
                                 bottomListScrollFct: provider.fetchActivities,
                               );
                             },
-                            loading: () {
-                              return Expanded(
-                                  child: Center(child: UIUtils.loader));
-                            },
-                            error: (error, stackTrace) {
-                              return Text('$error');
-                            },
+                            loading: () => Expanded(
+                              child: Center(child: UIUtils.loader),
+                            ),
+                            error: (error, stackTrace) =>
+                                Text('$error'),
                           ),
                         ],
                       ),

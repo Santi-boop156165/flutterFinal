@@ -15,158 +15,163 @@ class LoginScreen extends HookConsumerWidget {
 
   LoginScreen({super.key});
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(loginViewModelProvider);
-    final provider = ref.watch(loginViewModelProvider.notifier);
+@override
+Widget build(BuildContext context, WidgetRef ref) {
+  final state = ref.watch(loginViewModelProvider);
+  final provider = ref.watch(loginViewModelProvider.notifier);
 
-    return Scaffold(
-      backgroundColor: ColorUtils.blueGreyDarker,
-      body: state.isLogging
+  return Scaffold(
+    body: Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: state.isLogging
           ? Center(child: UIUtils.loader)
           : SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 80),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.only(left: 0, top: 150),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Align(
-                        alignment: AlignmentDirectional.topStart,
-                        child: Text(
-                          '${AppLocalizations.of(context)!.hello},',
-                          style:
-                              TextStyle(color: ColorUtils.white, fontSize: 33),
-                        ),
-                      ),
+                  Text(
+                    '${AppLocalizations.of(context)!.hello},',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 40),
-                  Padding(
-                    padding: const EdgeInsets.all(20),
+                  const SizedBox(height: 50),
+                  Form(
+                    key: formKey,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Form(
-                          key: formKey,
-                          child: Column(
-                            children: [
-                              TextFormField(
-                                style: FormUtils.darkTextFormFieldStyle,
-                                cursorColor: ColorUtils.mainLight,
-                                decoration: FormUtils.createInputDecorative(
-                                    AppLocalizations.of(context)!.email,
-                                    dark: true,
-                                    icon: Icons.email),
-                                validator: (value) =>
-                                    LoginValidators.email(context, value),
-                                onSaved: (value) {
-                                  provider.setUsername(value);
-                                },
-                              ),
-                              TextFormField(
-                                style: FormUtils.darkTextFormFieldStyle,
-                                decoration: FormUtils.createInputDecorative(
-                                    AppLocalizations.of(context)!.password,
-                                    dark: true,
-                                    icon: Icons.password),
-                                obscureText: true,
-                                validator: (value) =>
-                                    LoginValidators.password(context, value),
-                                onSaved: (value) {
-                                  provider.setPassword(value);
-                                },
-                              ),
-                              const SizedBox(height: 50),
-                              ElevatedButton(
-                                style: FormUtils.buttonStyle,
-                                onPressed: () {
-                                  provider.submitForm(context, formKey);
-                                },
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      Icons.login,
-                                      color: ColorUtils.white,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      AppLocalizations.of(context)!.login_page,
-                                      style: FormUtils.darkTextFormFieldStyle,
-                                    ),
-                                  ],
+                        TextFormField(
+                          style: const TextStyle(color: Colors.white),
+                          cursorColor: Colors.white,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white10,
+                            hintText: AppLocalizations.of(context)!.email,
+                            hintStyle:
+                                const TextStyle(color: Colors.white54),
+                            prefixIcon: const Icon(Icons.email,
+                                color: Colors.white70),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                          validator: (value) =>
+                              LoginValidators.email(context, value),
+                          onSaved: (value) {
+                            provider.setUsername(value);
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        TextFormField(
+                          obscureText: true,
+                          style: const TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white10,
+                            hintText: AppLocalizations.of(context)!.password,
+                            hintStyle:
+                                const TextStyle(color: Colors.white54),
+                            prefixIcon: const Icon(Icons.lock,
+                                color: Colors.white70),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                          validator: (value) =>
+                              LoginValidators.password(context, value),
+                          onSaved: (value) {
+                            provider.setPassword(value);
+                          },
+                        ),
+                        const SizedBox(height: 40),
+                        ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black87,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 32, vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          onPressed: () {
+                            provider.submitForm(context, formKey);
+                          },
+                          icon: const Icon(Icons.login),
+                          label: Text(
+                            AppLocalizations.of(context)!.login_page,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        TextButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                transitionDuration:
+                                    const Duration(milliseconds: 500),
+                                pageBuilder: (context, animation,
+                                        secondaryAnimation) =>
+                                    SlideTransition(
+                                  position: Tween<Offset>(
+                                    begin: const Offset(1.0, 0.0),
+                                    end: Offset.zero,
+                                  ).animate(animation),
+                                  child: RegistrationScreen(),
                                 ),
                               ),
-                              const SizedBox(height: 20),
-                              ElevatedButton(
-                                style: FormUtils.buttonStyle,
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    PageRouteBuilder(
-                                      transitionDuration:
-                                          const Duration(milliseconds: 500),
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          SlideTransition(
-                                        position: Tween<Offset>(
-                                          begin: const Offset(1.0, 0.0),
-                                          end: Offset.zero,
-                                        ).animate(animation),
-                                        child: RegistrationScreen(),
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      Icons.app_registration,
-                                      color: ColorUtils.white,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      AppLocalizations.of(context)!
-                                          .registration,
-                                      style: FormUtils.darkTextFormFieldStyle,
-                                    ),
-                                  ],
+                            );
+                          },
+                          icon: const Icon(Icons.app_registration,
+                              color: Colors.white),
+                          label: Text(
+                            AppLocalizations.of(context)!.registration,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                transitionDuration:
+                                    const Duration(milliseconds: 500),
+                                pageBuilder: (context, animation,
+                                        secondaryAnimation) =>
+                                    SlideTransition(
+                                  position: Tween<Offset>(
+                                    begin: const Offset(1.0, 0.0),
+                                    end: Offset.zero,
+                                  ).animate(animation),
+                                  child: SendNewPasswordScreen(),
                                 ),
                               ),
-                              const SizedBox(height: 30),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    PageRouteBuilder(
-                                      transitionDuration:
-                                          const Duration(milliseconds: 500),
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          SlideTransition(
-                                        position: Tween<Offset>(
-                                          begin: const Offset(1.0, 0.0),
-                                          end: Offset.zero,
-                                        ).animate(animation),
-                                        child: SendNewPasswordScreen(),
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  AppLocalizations.of(context)!
-                                      .send_new_password,
-                                  style: TextStyle(
-                                      color: ColorUtils.white,
-                                      decorationStyle:
-                                          TextDecorationStyle.solid,
-                                      decorationColor: ColorUtils.white,
-                                      decoration: TextDecoration.underline),
-                                ),
-                              ),
-                            ],
+                            );
+                          },
+                          child: Text(
+                            AppLocalizations.of(context)!.send_new_password,
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              decoration: TextDecoration.underline,
+                            ),
                           ),
                         ),
                       ],
@@ -175,6 +180,8 @@ class LoginScreen extends HookConsumerWidget {
                 ],
               ),
             ),
-    );
-  }
+    ),
+  );
+}
+
 }

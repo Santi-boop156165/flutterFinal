@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hello_world/l10n/app_localizations.dart';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hello_world/l10n/app_localizations.dart';
 
 import '../../common/core/utils/color_utils.dart';
 import '../../common/core/utils/form_utils.dart';
@@ -13,43 +12,61 @@ import 'edit_profile_screen.dart';
 class SettingsScreen extends HookConsumerWidget {
   const SettingsScreen({super.key});
 
-  ElevatedButton createButton(
-      String title, IconData icon, ButtonStyle style, Function() onPressedFct) {
-    return ElevatedButton(
-      style: style,
-      onPressed: onPressedFct,
-      child: Align(
-        alignment: Alignment.center,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: ColorUtils.white,
-            ),
-            const SizedBox(width: 8),
-            Text(
-              title,
-              style: FormUtils.darkTextFormFieldStyle,
-            ),
-          ],
+  static const _sectionSpacing = SizedBox(height: 32);
+  static const _itemSpacing = SizedBox(height: 16);
+  static const _horizontalPadding = EdgeInsets.symmetric(horizontal: 24.0);
+
+  Widget _buildTitle(String title) {
+    return Padding(
+      padding: _horizontalPadding,
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
         ),
       ),
     );
   }
 
-  void navigateToScreen(BuildContext context, Widget widget) {
+  Widget _buildButton({
+    required BuildContext context,
+    required String label,
+    required IconData icon,
+    required VoidCallback onPressed,
+    Color? color,
+  }) {
+    return Padding(
+      padding: _horizontalPadding,
+      child: SizedBox(
+        width: double.infinity,
+        child: ElevatedButton.icon(
+          style: FormUtils.createButtonStyle(color ?? ColorUtils.main),
+          onPressed: onPressed,
+          icon: Icon(icon, color: ColorUtils.white),
+          label: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            child: Text(
+              label,
+              style: FormUtils.darkTextFormFieldStyle.copyWith(fontSize: 16),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _navigateTo(BuildContext context, Widget screen) {
     Navigator.push(
       context,
       PageRouteBuilder(
-        transitionDuration: const Duration(milliseconds: 500),
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            SlideTransition(
+        transitionDuration: const Duration(milliseconds: 400),
+        pageBuilder: (context, animation, _) => SlideTransition(
           position: Tween<Offset>(
-            begin: const Offset(1.0, 0.0),
+            begin: const Offset(1, 0),
             end: Offset.zero,
           ).animate(animation),
-          child: widget,
+          child: screen,
         ),
       ),
     );
@@ -59,61 +76,81 @@ class SettingsScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(settingsViewModelProvider);
     final provider = ref.watch(settingsViewModelProvider.notifier);
+    final texts = AppLocalizations.of(context)!;
 
     return Scaffold(
-      body: Center(
-        child: state.isLoading
-            ? Center(child: UIUtils.loader)
-            : Column(
-                children: [
-                  const SizedBox(height: 40),
-                  Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: createButton(
-                          AppLocalizations.of(context)!.edit_profile,
-                          Icons.person,
-                          FormUtils.buttonStyle,
-                          () =>
-                              navigateToScreen(context, EditProfileScreen()))),
-                  const SizedBox(height: 20),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: createButton(
-                        AppLocalizations.of(context)!.edit_password,
-                        Icons.edit,
-                        FormUtils.buttonStyle,
-                        () => navigateToScreen(context, EditPasswordScreen())),
-                  ),
-                  const SizedBox(height: 20),
-                  const Divider(),
-                  const SizedBox(height: 20),
-                  Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: createButton(
-                          AppLocalizations.of(context)!.logout,
-                          Icons.logout,
-                          FormUtils.buttonStyle,
-                          () => provider.logoutUser())),
-                  const SizedBox(height: 20),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: createButton(
-                        AppLocalizations.of(context)!.delete_account,
-                        Icons.delete,
-                        FormUtils.createButtonStyle(ColorUtils.error),
-                        () => provider.showDeleteAccountAlert(
-                            context,
-                            AppLocalizations.of(context)!.ask_account_removal,
-                            AppLocalizations.of(context)!.delete,
-                            AppLocalizations.of(context)!.cancel)),
-                  ),
-                ],
-              ),
+      appBar: AppBar(
+        title: Text(texts.settings),
+        backgroundColor: ColorUtils.main,
+        foregroundColor: ColorUtils.white,
+        centerTitle: true,
+        elevation: 0,
       ),
+      body: state.isLoading
+          ? Center(child: UIUtils.loader)
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 32),
+
+                _buildTitle("Cuenta"),
+                const SizedBox(height: 12),
+                _buildButton(
+                  context: context,
+                  label: texts.edit_profile,
+                  icon: Icons.person_outline,
+                  onPressed: () => _navigateTo(context, EditProfileScreen()),
+                ),
+                _itemSpacing,
+                _buildButton(
+                  context: context,
+                  label: texts.edit_password,
+                  icon: Icons.lock_outline,
+                  onPressed: () => _navigateTo(context, EditPasswordScreen()),
+                ),
+
+                _sectionSpacing,
+                const Divider(thickness: 1),
+                _sectionSpacing,
+
+                _buildTitle("Seguridad"),
+                const SizedBox(height: 12),
+                _buildButton(
+                  context: context,
+                  label: texts.logout,
+                  icon: Icons.logout,
+                  onPressed: provider.logoutUser,
+                ),
+                _itemSpacing,
+                _buildButton(
+                  context: context,
+                  label: texts.delete_account,
+                  icon: Icons.delete_forever,
+                  color: ColorUtils.error,
+                  onPressed: () => provider.showDeleteAccountAlert(
+                    context,
+                    texts.ask_account_removal,
+                    texts.delete,
+                    texts.cancel,
+                  ),
+                ),
+
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Center(
+                    child: Text(
+                      'App hecha por Santiboop 💡',
+                      style: TextStyle(
+                        color: ColorUtils.grey,
+                        fontStyle: FontStyle.italic,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }

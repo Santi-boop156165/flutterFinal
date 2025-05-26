@@ -13,8 +13,8 @@ class ActivityApi {
   static String url = 'https://mock-api.local/private/activity/';
 
   static Future<PageResponse<ActivityResponse>> getActivities(int pageNumber) async {
-    final mockActivities = List.generate(5, (i) => _mockActivity('$i'));
-    return PageResponse(list: mockActivities, total: mockActivities.length);
+    final activitiesInit = List.generate(5, (i) => activity('$i'));
+    return PageResponse(list: activitiesInit, total: activitiesInit.length);
   }
 
   static Future<PageResponse<ActivityResponse>> getMyAndMyFriendsActivities(int pageNumber) async {
@@ -22,12 +22,12 @@ class ActivityApi {
   }
 
   static Future<PageResponse<ActivityResponse>> getUserActivities(String userId, int pageNumber) async {
-    final activities = List.generate(3, (i) => _mockActivity('$i', userId: userId));
+    final activities = List.generate(3, (i) => activity('$i', userId: userId));
     return PageResponse(list: activities, total: activities.length);
   }
 
   static Future<ActivityResponse> getActivityById(String id) async {
-    return _mockActivity(id);
+    return activity(id);
   }
 
   static Future<String?> removeActivity(String id) async {
@@ -35,11 +35,11 @@ class ActivityApi {
   }
 
   static Future<ActivityResponse?> addActivity(ActivityRequest request) async {
-    return _mockActivity(const Uuid().v4());
+    return activity(const Uuid().v4());
   }
 
   static Future<ActivityResponse> editActivity(ActivityRequest request) async {
-    return _mockActivity(const Uuid().v4());
+    return activity(const Uuid().v4());
   }
 
   static Future<void> like(String activityId) async {}
@@ -49,7 +49,7 @@ class ActivityApi {
     return ActivityCommentResponse(
       id: const Uuid().v4(),
       createdAt: DateTime.now(),
-      user: _mockUser(),
+      user: userInit(),
       content: comment,
     );
   }
@@ -62,9 +62,8 @@ class ActivityApi {
     return 'Comentario $id eliminado';
   }
 
-  // 🔧 Helpers
 
-  static ActivityResponse _mockActivity(String id, {String? userId}) {
+  static ActivityResponse activity(String id, {String? userId}) {
     final now = DateTime.now();
     return ActivityResponse(
       id: id,
@@ -84,17 +83,17 @@ class ActivityApi {
           longitude: 20.0,
         )
       ],
-      user: _mockUser(id: userId ?? 'user_$id'),
+      user: userInit(id: userId ?? 'user_$id'),
       comments: [],
     );
   }
 
-  static UserResponse _mockUser({String id = 'user_1'}) {
+  static UserResponse userInit({String id = 'user_1'}) {
     return UserResponse(
       id: id,
       username: 'mockuser',
-      firstname: 'Mock',
-      lastname: 'User',
+      firstname: 'Don',
+      lastname: 'Jhoe',
     );
   }
 }
